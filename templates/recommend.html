@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Recommendations - CineMood</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-film"></i>
+                <span>CineMood</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/"><i class="fas fa-home"></i> <span>Home</span></a></li>
+                <li><a href="/recommend" class="active"><i class="fas fa-compass"></i> <span>Explore</span></a></li>
+                <li><a href="/foryou"><i class="fas fa-heart"></i> <span>For You</span></a></li>
+                <li><a href="#" id="favoritesLink"><i class="fas fa-bookmark"></i> <span>Favorites</span></a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="page-container">
+        <div class="page-header">
+            <h1><i class="fas fa-magic"></i> Find Your Perfect Movie</h1>
+            <p>Select your preferences and let our AI find the best matches for you</p>
+        </div>
+
+        <!-- Search Section -->
+        <div class="search-section glass-effect">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="Search for any movie by name..." onkeyup="debouncedSearch()">
+        </div>
+
+        <!-- Filters Section -->
+        <div class="filters-container">
+            <!-- Mood Selection -->
+            <div class="filter-group">
+                <label><i class="fas fa-smile"></i> How are you feeling?</label>
+                <div class="mood-buttons">
+                    <button class="mood-btn" data-mood="happy">
+                        <i class="fas fa-laugh-beam"></i> Happy
+                    </button>
+                    <button class="mood-btn" data-mood="sad">
+                        <i class="fas fa-sad-tear"></i> Sad
+                    </button>
+                    <button class="mood-btn" data-mood="energetic">
+                        <i class="fas fa-bolt"></i> Energetic
+                    </button>
+                    <button class="mood-btn" data-mood="romantic">
+                        <i class="fas fa-heart"></i> Romantic
+                    </button>
+                    <button class="mood-btn" data-mood="thriller">
+                        <i class="fas fa-skull"></i> Thriller
+                    </button>
+                </div>
+            </div>
+
+            <!-- Genre Selection -->
+            <div class="filter-group">
+                <label><i class="fas fa-tags"></i> Genre (Optional)</label>
+                <div class="genre-buttons">
+                    <button class="genre-btn" data-genre="">All</button>
+                    <button class="genre-btn" data-genre="action">Action</button>
+                    <button class="genre-btn" data-genre="comedy">Comedy</button>
+                    <button class="genre-btn" data-genre="drama">Drama</button>
+                    <button class="genre-btn" data-genre="horror">Horror</button>
+                    <button class="genre-btn" data-genre="sci-fi">Sci-Fi</button>
+                    <button class="genre-btn" data-genre="thriller">Thriller</button>
+                    <button class="genre-btn" data-genre="romance">Romance</button>
+                </div>
+            </div>
+
+            <!-- Language Selection -->
+            <div class="filter-group">
+                <label><i class="fas fa-language"></i> Language</label>
+                <div class="language-buttons">
+                    <button class="lang-btn active" data-lang="">All</button>
+                    <button class="lang-btn" data-lang="hindi">🇮🇳 Hindi</button>
+                    <button class="lang-btn" data-lang="english">🇬🇧 English</button>
+                    <button class="lang-btn" data-lang="marathi">🇮🇳 Marathi</button>
+                    <button class="lang-btn" data-lang="tamil">🇮🇳 Tamil</button>
+                    <button class="lang-btn" data-lang="telugu">🇮🇳 Telugu</button>
+                    <button class="lang-btn" data-lang="kannada">🇮🇳 Kannada</button>
+                    <button class="lang-btn" data-lang="malayalam">🇮🇳 Malayalam</button>
+                </div>
+            </div>
+
+            <button class="generate-btn" onclick="getRecommendations()">
+                <i class="fas fa-magic"></i> Generate Recommendations
+                <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+
+        <!-- Results Section -->
+        <div id="resultsSection" class="results-section" style="display: none;">
+            <div class="section-header">
+                <h2><i class="fas fa-film"></i> Recommended For You</h2>
+                <div class="results-count" id="resultsCount"></div>
+            </div>
+            <div id="moviesGrid" class="movies-grid"></div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+    <div class="favorites-modal" id="favoritesModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-bookmark"></i> Your Favorites</h2>
+                <button class="close-modal" onclick="closeFavoritesModal()">&times;</button>
+            </div>
+            <div id="favoritesList" class="favorites-list"></div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
